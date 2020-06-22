@@ -1,24 +1,38 @@
 # datav-easy
+|  插件   | 说明  |
+|  ----  | ----  |
+| vue  |  |
+| vue-router  |  |
+| vuex  |  |
+| eslint  |  |
+| element-ui  |  |
+| axis  |  |
+| koa  |  |
+| koa-router  |  |
+| koa-body  |  |
+| koa-static  |  |
+| koa2-cors  |  |
+| mongoose  |  |
 
-## Project setup
+
+
+## 安装
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 热启动
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### 编译
 ```
 yarn build
 ```
 
-### Lints and fixes files
+### lint文件格式修复
 ```
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
