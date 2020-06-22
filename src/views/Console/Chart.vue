@@ -28,62 +28,62 @@
 <script>
 export default {
   props: ['user'],
-  data() {
+  data () {
     return {
       chartList: [],
       analyseData: [],
-      analyseVisible: false,
-    };
+      analyseVisible: false
+    }
   },
-  mounted() {
-    this.getData();
+  mounted () {
+    this.getData()
   },
   methods: {
-    getData() {
+    getData () {
       this.$http
         .get('/chart?uid=' + this.user.uid)
         .then(res => {
-          const { errno, data } = res.data;
+          const { errno, data } = res.data
           if (errno === 0) {
-            this.chartList = data.chartList;
+            this.chartList = data.chartList
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
-    editChart(id) {
-      this.$router.push(`/edit/${id}`);
+    editChart (id) {
+      this.$router.push(`/edit/${id}`)
     },
-    addNewChart() {
+    addNewChart () {
       this.$prompt('输入大屏标题', '创建大屏项目', {
         confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        cancelButtonText: '取消'
       })
         .then(({ value }) => {
           this.$http
             .post('/chart', {
               title: value,
-              uid: this.user.uid,
+              uid: this.user.uid
             })
             .then(res => {
-              const { errno, data } = res.data;
+              const { errno, data } = res.data
               if (errno === 0) {
                 this.$message({
                   type: 'success',
                   message: '创建成功'
-                });
+                })
                 // this.getData();
-                this.editChart(data._id);
+                this.editChart(data._id)
               }
             })
-            .catch(() => {});
+            .catch(() => {})
         })
-        .catch(() => {});
+        .catch(() => {})
     },
-    renameChart(row) {
+    renameChart (row) {
       this.$prompt('输入大屏标题', '重命名', {
         inputValue: row.title,
         confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        cancelButtonText: '取消'
       })
         .then(({ value }) => {
           this.$http
@@ -91,51 +91,51 @@ export default {
               title: value
             })
             .then(res => {
-              const { errno, data } = res.data;
+              const { errno } = res.data
               if (errno === 0) {
                 this.$message({
                   type: 'success',
                   message: '保存成功'
-                });
+                })
                 setTimeout(() => {
-                  this.getData();
-                }, 100);
+                  this.getData()
+                }, 100)
 
                 // this.editChart(data._id);
               }
             })
-            .catch(() => {});
+            .catch(() => {})
         })
-        .catch(() => {});
+        .catch(() => {})
     },
-    copyChart(row) {
+    copyChart (row) {
       this.$prompt('输入大屏标题', '复制大屏项目', {
         inputValue: row.title + '_复制',
         confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        cancelButtonText: '取消'
       })
         .then(({ value }) => {
           this.$http
             .post(`/chart/import/${row._id}`, {
               title: value,
-              uid: this.user.uid,
+              uid: this.user.uid
             })
             .then(res => {
-              const { errno, data } = res.data;
+              const { errno } = res.data
               if (errno === 0) {
                 this.$message({
                   type: 'success',
                   message: '创建成功'
-                });
-                this.getData();
+                })
+                this.getData()
                 // this.editChart(data._id);
               }
             })
-            .catch(() => {});
+            .catch(() => {})
         })
-        .catch(() => {});
+        .catch(() => {})
     },
-    deleteChart(id) {
+    deleteChart (id) {
       this.$confirm('是否删除大屏项目？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -144,25 +144,25 @@ export default {
         this.$http
           .delete(`/chart/${id}`)
           .then(res => {
-            const { errno, data } = res.data;
+            const { errno } = res.data
             if (errno === 0) {
               this.$message({
-                type: "success",
-                message: "已删除"
-              });
+                type: 'success',
+                message: '已删除'
+              })
               setTimeout(() => {
-                this.getData();
-              }, 100);
+                this.getData()
+              }, 100)
               // this.editChart(data._id);
             }
-          });
-      }).catch(() => {});
+          })
+      }).catch(() => {})
     },
-    viewChart(id) {
-      this.$router.push(`/view/${id}`);
+    viewChart (id) {
+      this.$router.push(`/view/${id}`)
     },
-    openChartAnalyse(row) {
-      this.analyseVisible = true;
+    openChartAnalyse (row) {
+      this.analyseVisible = true
       this.analyseData = [{
         key: '创建时间',
         value: this.$dayjs(row.createdAt).format('YYYY-MM-DD HH:mm')
@@ -173,9 +173,9 @@ export default {
         key: '访问人数',
         value: row.view
       }]
-    },
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

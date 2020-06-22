@@ -43,77 +43,77 @@ export default {
             {
               id: 'line',
               name: '折线图',
-              img: require('~@/assets/img/charts/line.png')
+              img: require('../../assets/img/charts/line.png')
             },
             {
               id: 'histogram',
               name: '柱状图',
-              img: require('~@/assets/img/charts/histogram.png')
+              img: require('../../assets/img/charts/histogram.png')
             },
             {
               id: 'bar',
               name: '条形图',
-              img: require('~@/assets/img/charts/bar.png')
+              img: require('../../assets/img/charts/bar.png')
             },
             {
               id: 'pie',
               name: '饼图',
-              img: require('~@/assets/img/charts/pie.png')
+              img: require('../../assets/img/charts/pie.png')
             },
             {
               id: 'ring',
               name: '环状图',
-              img: require('~@/assets/img/charts/ring.png')
+              img: require('../../assets/img/charts/ring.png')
             },
             {
               id: 'funnel',
               name: '漏斗图',
-              img: require('~@/assets/img/charts/funnel.png')
+              img: require('../../assets/img/charts/funnel.png')
             },
             {
               id: 'radar',
               name: '雷达图',
-              img: require('~@/assets/img/charts/radar.png')
+              img: require('../../assets/img/charts/radar.png')
             },
             // {
             //   id: "map-world",
             //   name: "世界地图",
-            //   img: require("@/assets/img/charts/map-world.png")
+            //   img: require("../../assets/img/charts/map-world.png")
             // },
             {
               id: 'map',
               name: '中国地图',
-              img: require('~@/assets/img/charts/map-china.png')
+              img: require('../../assets/img/charts/map-china.png')
             },
             // {
             //   id: "sankey",
             //   name: "桑基图",
-            //   img: require("@/assets/img/charts/sankey.png")
+            //   img: require("../../assets/img/charts/sankey.png")
             // },
             // {
             //   id: "scatter",
             //   name: "散点图",
-            //   img: require("@/assets/img/charts/scatter.png")
+            //   img: require("../../assets/img/charts/scatter.png")
             // },
             // {
             //   id: "candle",
             //   name: "K线图",
-            //   img: require("@/assets/img/charts/candle.png")
+            //   img: require("../../assets/img/charts/candle.png")
             // },
             // {
             //   id: "gauge",
             //   name: "仪表盘",
-            //   img: require("@/assets/img/charts/gauge.png")
+            //   img: require("../../assets/img/charts/gauge.png")
             // },
             {
               id: 'liquidfill',
               name: '水球图',
-              img: require('~@/assets/img/charts/liquidfill.png')
+              img: require('../../assets/img/charts/liquidfill.png')
             }
             // {
             //   id: "wordcloud",
             //   name: "词云图",
-            //   img: require("@/assets/img/charts/wordcloud.png")
+            //   img: require("../../assets/img/charts/wordcloud.png")
             // }
           ]
         },
@@ -123,7 +123,7 @@ export default {
             {
               id: 'text',
               name: '文本',
-              img: require('~@/assets/img/charts/text.png')
+              img: require('../../assets/img/charts/text.png')
             }
           ]
         },
@@ -133,7 +133,7 @@ export default {
             {
               id: 'image',
               name: '图片',
-              img: require('~@/assets/img/charts/image.png')
+              img: require('../../assets/img/charts/image.png')
             }
           ]
         },
@@ -143,7 +143,7 @@ export default {
             {
               id: 'border',
               name: '边框',
-              img: require('~@/assets/img/charts/border.png')
+              img: require('../../assets/img/charts/border.png')
             }
           ]
         }

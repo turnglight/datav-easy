@@ -16,9 +16,10 @@
           el-form-item(label="选择指标" prop="metrics")
             el-checkbox-group(v-model="form.metrics")
               el-checkbox(
-                v-for="item in form.columnsRaw"
+                v-for="(item,index) in form.columnsRaw"
                 :label="item"
-                :disabled="item == form.dimension")
+                :key="index"
+                :disabled="item === form.dimension")
           el-form-item
             el-button(type="primary" @click="onSubmit('ruleForm')") 提交
 </template>
@@ -85,7 +86,7 @@ export default {
                   uid: this.user.uid
                 })
                 .then(res => {
-                  const { errno, data } = res.data
+                  const { errno } = res.data
                   if (errno === 0) {
                     this.$message({
                       type: 'success',

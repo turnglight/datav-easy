@@ -50,6 +50,7 @@
 </template>
 
 <script>
+var interval
 export default {
   data () {
     return {
@@ -82,9 +83,9 @@ export default {
   },
   methods: {
     generateData (item) {
-      if (item.data.datacon.type == 'raw') {
+      if (item.data.datacon.type === 'raw') {
         item.data.generated = item.data.datacon.data
-      } else if (item.data.datacon.type == 'connect') {
+      } else if (item.data.datacon.type === 'connect') {
         this.$http.get('/connect/' + item.data.datacon.connectId)
           .then((res) => {
             const { errno, data } = res.data
@@ -94,7 +95,7 @@ export default {
             }
           })
           .catch(() => {})
-      } else if (item.data.datacon.type == 'get') {
+      } else if (item.data.datacon.type === 'get') {
         clearInterval(interval)
         const time = item.data.datacon.interval ? item.data.datacon.interval : 1
         interval = setInterval(() => {

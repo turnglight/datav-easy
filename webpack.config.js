@@ -1,9 +1,9 @@
-
-var path = require('path')
+const path = require('path')
 const webpack = require('webpack')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssTextPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode: 'production',
@@ -12,21 +12,41 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].[chunkhash:8].js'
+    filename: 'static/js/[name].[chunkhash:8].js'
   },
   resolve: {
     extensions: ['.js', '.jsx']
   },
   module: {
     rules: [
-      { test: /\.pug$/, use: ['html-loader', 'pug-html-loader'] },
+      { test: /\.pug$/, use: ['pug-plain-loader'] },
       { test: /\.vue$/, use: ['vue-loader'] },
       { test: /\.less$/, use: ['vue-style-loader', 'css-loader', 'less-loader'] },
       { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.js$/, loader: 'babel-loader' },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.(png|svg|jpg|gif)$/, use: ['file-loader'] },
-      { test: /\.(woff|woff2|eot|ttf|otf)$/, use: ['file-loader'] }
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: './static/img',
+            publicPath: '/static/img'
+          }
+        }]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: './static/fonts',
+            publicPath: '/static/fonts'
+          }
+        }]
+      }
     ]
   },
   optimization: {
@@ -46,6 +66,9 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new MiniCssTextPlugin({
+      filename: 'static/css/[name].[contenthash].css'
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -53,9 +76,9 @@ module.exports = {
     }),
     // 用于生成html文件，可定义多个
     new HtmlWebpackPlugin({
-      title: 'react-demo',
-      filename: 'app.html',
-      template: './public/index.html' // Load a custom template 可以套用你自定义的模版
+      title: 'datav-easy',
+      filename: 'index.html',
+      template: 'index.html'
     })
   ]
 }

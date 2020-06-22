@@ -100,29 +100,28 @@
             style="width: 100%; margin-bottom: 10px;")
             el-option(label="静态JSON" value="raw")
             el-option(label="我的数据源" value="connect")
-            //- el-option(label="表格数据" value="table")
             el-option(label="GET接口" value="get")
-          //- el-input(
+            el-input(
             v-model="currentElement.data.datacon.data"
             type="textarea"
             :rows="10"
             placeholder="请插入标准 JSON 文件"
             v-show="currentElement.data.datacon.type == 'raw'")
           vue-json-editor(
-            v-if="currentElement.data.datacon.type == 'raw'"
+            v-if="currentElement.data.datacon.type === 'raw'"
             v-model="currentElement.data.datacon.data"
             mode="code"
             :show-btns="true"
             @json-save="handleChartDataChange")
           el-select(
-            v-if="currentElement.data.datacon.type == 'connect'"
+            v-if="currentElement.data.datacon.type === 'connect'"
             v-model="currentElement.data.datacon.connectId"
             placeholder="请选择"
             @change="handleChartDataChange"
             style="width: 100%; margin-bottom: 10px;")
-            el-option(v-for="item in connectList" :label="item.name" :value="item._id")
+            el-option(v-for="(item,index) in connectList" :key="index" :label="item.name" :value="item._id")
           el-input(
-            v-if="currentElement.data.datacon.type == 'get'"
+            v-if="currentElement.data.datacon.type === 'get'"
             v-model="currentElement.data.datacon.getUrl"
             type="textarea"
             :rows="5"

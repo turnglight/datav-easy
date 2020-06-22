@@ -84,13 +84,13 @@ export default {
       this.chartData.elements.splice(index, 1)
     },
     saveChartData () {
-      const screenshot = this.generateScreenShot().then(url => {
+      this.generateScreenShot().then(url => {
         this.$http.put('/chart/' + this.$route.params.id, {
           img: url,
           chartData: this.chartData
         })
           .then((res) => {
-            const { errno, data } = res.data
+            const { errno } = res.data
             if (errno === 0) {
               this.publishPopVisible = true
               this.$message({
@@ -103,9 +103,9 @@ export default {
       })
     },
     generateData (item) {
-      if (item.data.datacon.type == 'raw') {
+      if (item.data.datacon.type === 'raw') {
         item.data.generated = item.data.datacon.data
-      } else if (item.data.datacon.type == 'connect') {
+      } else if (item.data.datacon.type === 'connect') {
         this.$http.get('/connect/' + item.data.datacon.connectId)
           .then((res) => {
             const { errno, data } = res.data
@@ -115,7 +115,7 @@ export default {
             }
           })
           .catch(() => {})
-      } else if (item.data.datacon.type == 'get') {
+      } else if (item.data.datacon.type === 'get') {
         clearInterval(interval)
         const time = item.data.datacon.interval ? item.data.datacon.interval : 1
         interval = setInterval(() => {
