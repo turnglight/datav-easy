@@ -12,7 +12,7 @@
               .el-upload__tip(slot="tip") 请上传 Excel 表格文件，其中第一行为表头
           el-form-item(label="选择维度" prop="dimension")
             el-select(v-model="form.dimension" placeholder="请选择" @change="form.metrics = []")
-              el-option(v-for="item in form.columnsRaw" :label="item" :value="item")
+              el-option(v-for="(item,index) in form.columnsRaw" :label="item" :key="index" :value="item")
           el-form-item(label="选择指标" prop="metrics")
             el-checkbox-group(v-model="form.metrics")
               el-checkbox(

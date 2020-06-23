@@ -1,5 +1,5 @@
 <template lang="pug">
-  .editor-view
+  .editor-view(:scale="1")
     .topbar-view
       Topbar
     .toolbar-view(v-show="!preview")
@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       title: '',
-      scale: 0.7,
+      scale: 1,
       preview: false,
       chartData: {
         elements: []
@@ -186,7 +186,7 @@ export default {
 
 .main-view {
   background: #eeeeee;
-  padding: 60px 300px 0 50px;
+  padding: 60px 4%;
   overflow: hidden;
   height: calc(100vh - 60px);
 }

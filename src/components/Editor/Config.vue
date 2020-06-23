@@ -24,7 +24,7 @@
           el-col(:span="24")
             el-upload(
               class="bg-uploader"
-              action="http://localhost:3000/api/uploadfile/"
+              action="http://121.196.122.186:3000/api/uploadfile/"
               :show-file-list="false"
               :on-success="handleScreenBgUploadSuccess"
               :before-upload="beforeUpload")
@@ -199,7 +199,7 @@
           .title 上传图片
           el-upload(
             class="bg-uploader"
-            action="http://localhost:3000/api/uploadfile/"
+            action="http://121.196.122.186:3000/api/uploadfile/"
             :show-file-list="false"
             :on-success="handleImageUploadSuccess"
             :before-upload="beforeUpload")
@@ -317,7 +317,7 @@ export default {
   right: 0;
   display: flex;
   flex-direction: column;
-  background: #ffffffe9;
+  background: #211f1f;
   color: #515151;
   box-shadow: -4px 0 4px #00000005;
   padding: 0;
@@ -352,6 +352,7 @@ export default {
   margin: 0;
   padding: 14px 20px;
   .title {
+    color: #ffffff;
     font-weight: bold;
     font-size: 0.86rem;
     margin-bottom: 12px;

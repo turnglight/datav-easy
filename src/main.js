@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueRulerTool from 'vue-ruler-tool'
 import VueDraggableResizable from 'vue-draggable-resizable'
 import VueDragResize from 'vue-drag-resize'
 import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
@@ -24,6 +25,7 @@ Vue.use(ElementUI)
 Vue.use(dayjs)
 Vue.component('vue-draggable-resizable', VueDraggableResizable)
 Vue.component('vue-drag-resize', VueDragResize)
+Vue.component('vue-ruler-tool', VueRulerTool)
 
 new Vue({
   router,

@@ -1,8 +1,8 @@
 <template lang="pug">
   div
     .screen
-      .logo ChartFun
-      .desc 一站式数据大屏制作平台
+      .logo datav-easy
+      .desc 组态可视化平台
       transition(name="slide-fade")
         .login-box(v-if="show")
           .radio-group
@@ -76,7 +76,7 @@ export default {
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background: url('../assets/img/bg.png');
+  /*background: url('../assets/img/bg.png');*/
   background-position: 50%;
   background-size: cover;
   background-repeat: no-repeat;

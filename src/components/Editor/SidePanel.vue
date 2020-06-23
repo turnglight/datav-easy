@@ -2,8 +2,6 @@
   .panel
     .title(v-if="panelKey === 'layers'")
       span 图层 ({{chartData.elements.length}})
-    .title(v-else-if="panelKey !== ''")
-      span {{componentList[panelKey].name}} ({{componentList[panelKey].children.length}})
     .layer-list(v-if="panelKey === 'layers'")
       draggable(
         v-model="chartData.elements"
@@ -22,7 +20,6 @@
       .list-item(v-for="item in componentList[panelKey].children" @click="handleAddComponent(item)")
         .img-wrapper
           img(:src="item.img")
-        .name {{item.name}}
 </template>
 
 <script>
@@ -42,13 +39,11 @@ export default {
           children: [
             {
               id: 'line',
-              name: '折线图',
-              img: require('../../assets/img/charts/line.png')
+              img: require('../../assets/images/charts/line.svg')
             },
             {
               id: 'histogram',
-              name: '柱状图',
-              img: require('../../assets/img/charts/histogram.png')
+              img: require('../../assets/images/charts/bar.svg')
             },
             {
               id: 'bar',
@@ -260,7 +255,7 @@ export default {
 <style lang="scss" scoped>
 .panel {
   height: 100%;
-  width: 250px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   background: #ffffffe9;
@@ -268,24 +263,16 @@ export default {
 }
 .title {
   color: #999999;
-  padding: 10px 16px 16px;
 }
 .component-list {
   flex: 1;
-  padding: 0 10px 0 16px;
-  overflow: scroll;
 
   .list-item {
     display: inline-block;
-    width: 100px;
-    background: rgba(64, 160, 255, 0.06);
-    border: 1px solid rgba(64, 160, 255, 0.1);
-    margin-right: 10px;
-    margin-bottom: 12px;
+    width: 50px;
     opacity: 0.6;
     transition: opacity, background 0.3s ease;
     text-align: center;
-    padding: 5px 0;
 
     &:hover {
       cursor: pointer;
@@ -300,11 +287,10 @@ export default {
     .img-wrapper {
       display: flex;
       width: 100%;
-      height: 80px;
       align-items: center;
       justify-content: center;
       img {
-        height: 54px;
+        height: 40px;
       }
     }
 

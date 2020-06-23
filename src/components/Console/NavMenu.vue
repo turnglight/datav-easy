@@ -1,7 +1,7 @@
 <template lang="pug">
   .sidebar
     .logo
-      router-link(to="/") ChartFun
+      router-link(to="/") datav-easy
     router-link.sidebar-item(
       v-for="item in menuList"
       :key="item.name"
