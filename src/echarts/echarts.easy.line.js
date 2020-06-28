@@ -2,7 +2,8 @@
  * based on echarts4.8.0
  * author: dyn
  **/
-(function (window, ec) {
+/* eslint-disable */
+export function init (window, ec) {
   var _charts = window.line
   var option = {}
   // Object.assign()   ES2015
@@ -39,7 +40,7 @@
       }
       return newArr
     }
-    var newObj
+    var newObj = new Object();
     for (const j in target) {
       newObj[j] = clone(target[j])
     }
@@ -179,7 +180,6 @@
       }
       return this
     },
-
     setXAxisName: function (name) {
       this.option.xAxis.name = name
       return this
@@ -395,5 +395,7 @@
     return charts
   }
   window.line = charts
+  return window.line
   // module.exports = charts;
-})(window, this.$echarts)
+// eslint-disable-next-line no-undef
+}

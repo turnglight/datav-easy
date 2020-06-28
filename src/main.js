@@ -14,8 +14,8 @@ import store from './store'
 import http from './http'
 
 // echarts-easy
-import echarts from './echarts/echarts.min.js'
-import line from './echarts/echarts.easy.line.js'
+import echarts from 'echarts'
+
 // import bar from './echarts/echarts.easy.bar.js'
 // import scatter from './echarts/echarts.easy.scatter.js'
 // import gauge from './echarts/echarts.easy.gauge.js'
@@ -29,7 +29,6 @@ Vue.prototype.$http = http
 Vue.prototype.$dayjs = dayjs
 
 Vue.prototype.$echarts = echarts
-Vue.prototype.$line = line
 // Vue.prototype.$bar = bar
 // Vue.prototype.$scatter = scatter
 // Vue.prototype.$gauge = gauge
