@@ -115,7 +115,6 @@ export default {
         .setLegend(['类目一', '类目二'])
         .setSmooth(true)
         .create()
-      console.log('123')
     },
     handleSpaceDown () {
       this.screenDraggable = true
