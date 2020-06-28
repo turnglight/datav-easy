@@ -12,6 +12,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import http from './http'
+
+// echarts-easy
+import echarts from './echarts/echarts.min.js'
+import line from './echarts/echarts.easy.line.js'
+// import bar from './echarts/echarts.easy.bar.js'
+// import scatter from './echarts/echarts.easy.scatter.js'
+// import gauge from './echarts/echarts.easy.gauge.js'
 // import initMock from '../mock';
 
 // 需要 mock 数据时请打开注释
@@ -20,6 +27,13 @@ import http from './http'
 Vue.config.productionTip = false
 Vue.prototype.$http = http
 Vue.prototype.$dayjs = dayjs
+
+Vue.prototype.$echarts = echarts
+Vue.prototype.$line = line
+// Vue.prototype.$bar = bar
+// Vue.prototype.$scatter = scatter
+// Vue.prototype.$gauge = gauge
+
 Vue.use(VCharts)
 Vue.use(ElementUI)
 Vue.use(dayjs)

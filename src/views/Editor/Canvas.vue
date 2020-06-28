@@ -5,7 +5,7 @@
       el-input(v-model="publicUrl" readonly)
       span(slot="footer")
         el-button(type="primary" @click="$parent.publishPopVisible = false") 确 定
-    vue-ruler-tool(:is-scale-revise="true" :is-hot-key="true" :content-layout="{left:50,top:50}")
+    vue-ruler-tool(:is-scale-revise="true" :is-hot-key="true" :content-layout="{left:50,top:50}" )
       .edit-view(
         tabindex="0"
         @keydown.space.prevent="handleSpaceDown"
@@ -47,26 +47,9 @@
               div.filler(
                 v-if="item.data.type == 'chart'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                ve-map(
-                  v-if="item.data.settings.type=='map'"
-                  :width="item.w + 'px'"
-                  :height="item.h + 'px'"
-                  :data="item.data.generated"
-                  :settings="item.data.settings"
-                  @ready-once="generateData(item)")
-                ve-liquidfill(
-                  v-else-if="item.data.settings.type=='liquidfill'"
-                  :width="item.w + 'px'"
-                  :height="item.h + 'px'"
-                  :data="item.data.generated"
-                  @ready-once="generateData(item)")
-                ve-chart(
-                  v-else
-                  :width="item.w + 'px'"
-                  :height="item.h + 'px'"
-                  :data="item.data.generated"
-                  :settings="item.data.settings"
-                  @ready-once="generateData(item)")
+                div.filler(
+                  v-if="item.data.settings.type=='line'"
+                  :onload="loadChart")
               div.filler(
                 v-if="item.data.type == 'text'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
@@ -118,6 +101,22 @@ export default {
     }
   },
   methods: {
+    loadChart () {
+      let line = this.$line.noConflict()
+      line = line('line', this)
+      line.setTitle('折线图1')
+        .setYAxisSplitLine(true)
+        .setYAxisName('单位(*)')
+        .setXAxisFontColor('rgb(255,255,255)')
+        .setYAxisFontColor('rgb(255,255,255)')
+        .setSeries([{ name: '类目一', data: [['1年内', 0], ['1-5年内', 34], ['5-10年内', 40], ['10年以上', 50]] }, { name: '类目二', data: [['1年内', 40], ['1-5年内', 30], ['5-10年内', 28], ['10年以上', 35]] }])
+        .setAreaColor(['rgba(7,161,167,0.2)', 'rgba(185,141,232,0.2)'])
+        .setItemColor(['#07A1A7', '#B98DE8'])
+        .setLegend(['类目一', '类目二'])
+        .setSmooth(true)
+        .create()
+      console.log('123')
+    },
     handleSpaceDown () {
       this.screenDraggable = true
     },
@@ -148,9 +147,6 @@ export default {
 
 <style lang="scss" scoped>
 .vue-ruler-wrapper{
-  left: 0;
-  top: 0;
-  bottom: 10px;
   overflow: hidden;
   user-select: none;
   background: url("../../assets/images/panel_background.png")  repeat;
@@ -234,4 +230,9 @@ outline: 0;
     z-index: 999;
   }
 }
+
+.vue-ruler-wrapper {
+  width: 100% !important;
+}
+
 </style>
