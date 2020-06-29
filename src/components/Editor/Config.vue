@@ -101,12 +101,6 @@
             el-option(label="静态JSON" value="raw")
             el-option(label="我的数据源" value="connect")
             el-option(label="GET接口" value="get")
-            el-input(
-            v-model="currentElement.data.datacon.data"
-            type="textarea"
-            :rows="10"
-            placeholder="请插入标准 JSON 文件"
-            v-show="currentElement.data.datacon.type == 'raw'")
           vue-json-editor(
             v-if="currentElement.data.datacon.type === 'raw'"
             v-model="currentElement.data.datacon.data"

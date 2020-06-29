@@ -42,14 +42,14 @@
               :isDraggable="!$parent.preview"
               :isResizable="!$parent.preview"
               @activated="handleActivated(index)"
-              @resizing="handleResize(item, arguments[0])"
+              @resizing="handleResize(item, index, arguments[0])"
               @dragging="handleDrag(item, arguments[0])")
               div.filler(
                 v-if="item.data.type == 'chart'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
                 div.filler(
-                  v-if="item.data.settings.type=='line'"
-                  :onload="loadChart")
+                  v-if="item.data.settings.type=='line'")
+                  EchartsEasyLine(:ref="'list${index}'")
               div.filler(
                 v-if="item.data.type == 'text'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
@@ -72,8 +72,12 @@
 </template>
 
 <script>
+import EchartsEasyLine from '../../components/Echarts/EchartsEasyLine'
 export default {
   props: ['scale'],
+  components: {
+    EchartsEasyLine
+  },
   data () {
     return {
       screenDraggable: false,
@@ -101,21 +105,6 @@ export default {
     }
   },
   methods: {
-    loadChart () {
-      let line = this.$line.noConflict()
-      line = line('line', this)
-      line.setTitle('折线图1')
-        .setYAxisSplitLine(true)
-        .setYAxisName('单位(*)')
-        .setXAxisFontColor('rgb(255,255,255)')
-        .setYAxisFontColor('rgb(255,255,255)')
-        .setSeries([{ name: '类目一', data: [['1年内', 0], ['1-5年内', 34], ['5-10年内', 40], ['10年以上', 50]] }, { name: '类目二', data: [['1年内', 40], ['1-5年内', 30], ['5-10年内', 28], ['10年以上', 35]] }])
-        .setAreaColor(['rgba(7,161,167,0.2)', 'rgba(185,141,232,0.2)'])
-        .setItemColor(['#07A1A7', '#B98DE8'])
-        .setLegend(['类目一', '类目二'])
-        .setSmooth(true)
-        .create()
-    },
     handleSpaceDown () {
       this.screenDraggable = true
     },
@@ -125,12 +114,14 @@ export default {
     handleActivated (index) {
       this.$parent.setActiveComponentByIndex(index)
     },
-    handleResize (widget, arg) {
+    handleResize (widget, index, arg) {
       const item = widget
       item.x = arg.left
       item.y = arg.top
       item.w = arg.width
       item.h = arg.height
+      // eslint-disable-next-line no-template-curly-in-string
+      this.$refs['list${index}'][index].redraw()
     },
     handleDrag (widget, arg) {
       const item = widget

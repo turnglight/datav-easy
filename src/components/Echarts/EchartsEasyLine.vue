@@ -5,11 +5,16 @@
 <script>
 import { init } from '../../echarts/echarts.easy.line.js'
 export default {
+  data () {
+    return {
+      line: Object
+    }
+  },
   mounted () {
-    let line = this.init()
-    line = line.noConflict()
-    line = line('line', '.chart')
-    line.setTitle('折线图1')
+    this.line = this.init()
+    this.line = this.line.noConflict()
+    this.line = this.line('line', '.chart')
+    this.line.setTitle('折线图1')
       .setYAxisSplitLine(true)
       .setYAxisName('单位(*)')
       .setXAxisFontColor('rgb(255,255,255)')
@@ -25,6 +30,9 @@ export default {
     init: function () {
       const echarts = require('echarts')
       return init(window, echarts)
+    },
+    redraw: function () {
+      this.line.chart.setOption(this.line.option, true)
     }
   }
 }
