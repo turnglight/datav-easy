@@ -1,5 +1,7 @@
 <template>
-  <div class="chart"></div>
+  <div id="line">
+    <div class="chart" style="width:400px;height:200px;"></div>
+  </div>
 </template>
 
 <script>
@@ -12,34 +14,32 @@ export default {
   },
   mounted () {
     this.line = this.init()
-    this.line = this.line.noConflict()
-    this.line = this.line('line', '.chart')
-    this.line.setTitle('折线图1')
-      .setYAxisSplitLine(true)
-      .setYAxisName('单位(*)')
-      .setXAxisFontColor('rgb(255,255,255)')
-      .setYAxisFontColor('rgb(255,255,255)')
-      .setSeries([{ name: '类目一', data: [['1年内', 0], ['1-5年内', 34], ['5-10年内', 40], ['10年以上', 50]] }, { name: '类目二', data: [['1年内', 40], ['1-5年内', 30], ['5-10年内', 28], ['10年以上', 35]] }])
-      .setAreaColor(['rgba(7,161,167,0.2)', 'rgba(185,141,232,0.2)'])
-      .setItemColor(['#07A1A7', '#B98DE8'])
-      .setLegend(['类目一', '类目二'])
-      .setSmooth(true)
-      .create()
   },
   methods: {
     init: function () {
       const echarts = require('echarts')
-      return init(window, echarts)
+      this.line = init(window, echarts)
+      this.line = this.line.noConflict()
+      this.line = this.line('line', '.chart')
+      this.line.setTitle('折线图1')
+        .setYAxisSplitLine(true)
+        .setYAxisName('单位(*)')
+        .setXAxisFontColor('rgb(255,255,255)')
+        .setYAxisFontColor('rgb(255,255,255)')
+        .setSeries([{ name: '类目一', data: [['1年内', 0], ['1-5年内', 34], ['5-10年内', 40], ['10年以上', 50]] }, { name: '类目二', data: [['1年内', 40], ['1-5年内', 30], ['5-10年内', 28], ['10年以上', 35]] }])
+        .setAreaColor(['rgba(7,161,167,0.2)', 'rgba(185,141,232,0.2)'])
+        .setItemColor(['#07A1A7', '#B98DE8'])
+        .setLegend(['类目一', '类目二'])
+        .setSmooth(true)
+        .create()
+      window.addEventListener('resize', this.line.resize)
+      return this.line
     },
-    redraw: function () {
-      this.line.chart.setOption(this.line.option, true)
+    redraw: function (item) {
+      const div = document.getElementById('line')
+      div.innerHTML = '<div class="chart" style="width:' + item.w + 'px;height: ' + item.h + 'px;">'
+      this.init()
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-.chart{
-  width: 400px;
-  height: 200px;
-}
-</style>

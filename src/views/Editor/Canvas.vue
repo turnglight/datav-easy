@@ -121,7 +121,7 @@ export default {
       item.w = arg.width
       item.h = arg.height
       // eslint-disable-next-line no-template-curly-in-string
-      this.$refs['list${index}'][index].redraw()
+      this.$refs['list${index}'][index].redraw(item)
     },
     handleDrag (widget, arg) {
       const item = widget

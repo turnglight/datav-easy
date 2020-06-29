@@ -368,7 +368,7 @@ export function init (window, ec) {
       return this
     },
     create: function () { // 创建图表
-      console.log(this.option)
+      // console.log(this.option)
       this.chart.setOption(this.option)
     }
   }
@@ -395,6 +395,7 @@ export function init (window, ec) {
     return charts
   }
   window.line = charts
+  window.addEventListener("resize", window.line.resize);
   return window.line
   // module.exports = charts;
 // eslint-disable-next-line no-undef
