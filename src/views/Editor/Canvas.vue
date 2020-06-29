@@ -49,25 +49,17 @@
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
                 div.filler(
                   v-if="item.data.settings.type=='line'")
-                  EchartsEasyLine(:ref="'list${index}'")
+                  EchartsEasyLine(:index="index" :option="item.data.option" :width="item.w" :height="item.h" :ref="'list${index}'")
               div.filler(
                 v-if="item.data.type == 'text'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                div.textcontainer(
-                  :style="{fontFamily: item.data.datacon.fontFamily, fontWeight: item.data.datacon.bold ? 'bold' : 'normal', fontStyle: item.data.datacon.italic ? 'italic' : 'normal', color: item.data.datacon.color, fontSize: item.data.datacon.fontSize + 'px', textStroke: item.data.datacon.stroke ? item.data.datacon.strokeSize+'px '+item.data.datacon.strokeColor : '0', textShadow: item.data.datacon.shadow ? '5px 5px '+item.data.datacon.shadowBlur+'px '+item.data.datacon.shadowColor : 'none'}"
-                  v-text="item.data.datacon.text")
               div.filler(
                 v-if="item.data.type == 'image'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                div.imagecontainer(
-                  :style="{backgroundImage: `url(${item.data.datacon.img})`, backgroundSize: item.data.datacon.imgSize, opacity: item.data.datacon.opacity}")
-                  .placeholder(v-show="!item.data.datacon.img")
               div.filler(
                 v-if="item.data.type == 'border'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                div.bordercontainer(
-                  :class="'border' + item.data.datacon.borderId"
-                  :style="{opacity: item.data.datacon.opacity}")
+
             .mock(:class="{front: screenDraggable}")
 </template>
 

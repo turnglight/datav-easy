@@ -3,8 +3,8 @@
  * author: dyn
  **/
 /* eslint-disable */
-export function init (window, ec) {
-  var _charts = window.line
+export function init (that, ec) {
+  var _charts = that.line
   var option = {}
   // Object.assign()   ES2015
   // 该方法用于将所有可枚举的属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
@@ -389,14 +389,13 @@ export function init (window, ec) {
     Charts.prototype[name] = fun
   }
   charts.noConflict = function () { // 解决变量冲突
-    if (window.line === charts) {
-      window.line = _charts
+    if (that.line === charts) {
+      that.line = _charts
     }
     return charts
   }
-  window.line = charts
-  window.addEventListener("resize", window.line.resize);
-  return window.line
+  that.line = charts
+  return that.line
   // module.exports = charts;
 // eslint-disable-next-line no-undef
 }

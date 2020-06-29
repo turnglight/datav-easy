@@ -66,14 +66,14 @@
           el-input(v-model="currentElement.name")
         .config-box
           .title 组件位置
-          el-row(:gutter="20")
+          el-row(:gutter="10")
             el-col(:span="12")
               el-input(v-model.number="currentElement.x")
                 template(slot="prepend") x
             el-col(:span="12")
               el-input(v-model.number="currentElement.y")
                 template(slot="prepend") y
-          el-row(:gutter="20" style="margin-top: 4px;")
+          el-row(:gutter="10" style="margin-top: 4px;")
             el-col(:span="12")
               el-input(v-model.number="currentElement.w")
                 template(slot="prepend") w
@@ -90,46 +90,6 @@
         .config-box
           .title Settings.json
           pre.code-box(v-html="formatedJSON")
-      .panel(v-show="thisKey=='data' && currentElement.data.type == 'chart'")
-        .config-box
-          .title 数据配置
-          el-select(
-            v-model="currentElement.data.datacon.type"
-            placeholder="请选择"
-            @change="handleChartDataChange"
-            style="width: 100%; margin-bottom: 10px;")
-            el-option(label="静态JSON" value="raw")
-            el-option(label="我的数据源" value="connect")
-            el-option(label="GET接口" value="get")
-          vue-json-editor(
-            v-if="currentElement.data.datacon.type === 'raw'"
-            v-model="currentElement.data.datacon.data"
-            mode="code"
-            :show-btns="true"
-            @json-save="handleChartDataChange")
-          el-select(
-            v-if="currentElement.data.datacon.type === 'connect'"
-            v-model="currentElement.data.datacon.connectId"
-            placeholder="请选择"
-            @change="handleChartDataChange"
-            style="width: 100%; margin-bottom: 10px;")
-            el-option(v-for="(item,index) in connectList" :key="index" :label="item.name" :value="item._id")
-          el-input(
-            v-if="currentElement.data.datacon.type === 'get'"
-            v-model="currentElement.data.datacon.getUrl"
-            type="textarea"
-            :rows="5"
-            style="margin-bottom: 10px;")
-          el-row(v-if="currentElement.data.datacon.type == 'get'")
-            el-col(:span="8")
-              p(style="margin-top: 8px;") 刷新时间
-            el-col(:span="16")
-              el-input-number(
-                v-model="currentElement.data.datacon.interval"
-                :min="1"
-                :max="10"
-                @change="handleChartDataChange"
-                style="width: 100%;")
       .panel(v-show="thisKey=='data' && currentElement.data.type == 'text'")
         .config-box
           .title 输入文本
@@ -253,7 +213,7 @@ export default {
       return this.$parent.currentElement
     },
     formatedJSON () {
-      return JSON.stringify(this.$parent.currentElement, null, 2)
+      return JSON.stringify(this.$parent.currentElement.data.option, null, 2)
     }
   },
   mounted () {
@@ -320,7 +280,6 @@ export default {
 
 .public-config, .component-config .panel {
   flex: 1;
-  overflow-y: scroll;
 }
 
 .panel-selector {
@@ -334,7 +293,7 @@ export default {
       margin: 0 10px;
       color: #999999;
       &.active {
-        color: #212121;
+        /*color: #212121;*/
         border-bottom: 2px solid #212121;
       }
     }
@@ -388,7 +347,7 @@ export default {
 
 .code-box {
   width: 260px;
-  max-height: 200px;
+  max-height: 400px;
   border: 1px solid #eeeeee;
   border-radius: 4px;
   padding: 6px;
