@@ -203,7 +203,13 @@ export default {
           settings: {
             type: item.id
           },
-          option: {}
+          option: {},
+          datacon: {
+            type: 'raw',
+            connectID: '',
+            data: {}
+          },
+          generated: {}
         }
       }
       const component = {

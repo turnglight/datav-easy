@@ -90,6 +90,53 @@
         .config-box
           .title Settings.json
           pre.code-box(v-html="formatedJSON")
+      .panel(v-show="thisKey=='data' && currentElement.data.type == 'chart'")
+        .config-box
+          .title 数据配置
+          el-select(
+            v-model="currentElement.data.datacon.type"
+            placeholder="请选择"
+            @change="handleChartDataChange"
+            style="width: 100%; margin-bottom: 10px;")
+            el-option(label="静态JSON" value="raw")
+            el-option(label="我的数据源" value="connect")
+            el-option(label="表格数据" value="table")
+            el-option(label="GET接口" value="get")
+            el-input(
+              v-model="currentElement.data.datacon.data"
+              type="textarea"
+              :rows="10"
+              placeholder="请插入标准 JSON 文件"
+              v-show="currentElement.data.datacon.type == 'raw'")
+          vue-json-editor(
+            v-if="currentElement.data.datacon.type == 'raw'"
+            v-model="currentElement.data.datacon.data"
+            mode="code"
+            :show-btns="true"
+            @json-save="handleChartDataChange")
+          el-select(
+            v-if="currentElement.data.datacon.type == 'connect'"
+            v-model="currentElement.data.datacon.connectId"
+            placeholder="请选择"
+            @change="handleChartDataChange"
+            style="width: 100%; margin-bottom: 10px;")
+            el-option(v-for="item in connectList" :label="item.name" :value="item._id")
+          el-input(
+            v-if="currentElement.data.datacon.type == 'get'"
+            v-model="currentElement.data.datacon.getUrl"
+            type="textarea"
+            :rows="5"
+            style="margin-bottom: 10px;")
+          el-row(v-if="currentElement.data.datacon.type == 'get'")
+            el-col(:span="8")
+              p(style="margin-top: 8px;") 刷新时间
+            el-col(:span="16")
+              el-input-number(
+                v-model="currentElement.data.datacon.interval"
+                :min="1"
+                :max="10"
+                @change="handleChartDataChange"
+                style="width: 100%;")
       .panel(v-show="thisKey=='data' && currentElement.data.type == 'text'")
         .config-box
           .title 输入文本
