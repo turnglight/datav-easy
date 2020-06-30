@@ -49,13 +49,19 @@
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
                 div.filler(
                   v-if="item.data.settings.type=='line'")
-                  EchartsEasyLine(:index="index" :option="item.data.option" :width="item.w" :height="item.h" :ref="'list${index}'")
+                  EchartsEasyLine(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'list${index}'")
               div.filler(
                 v-if="item.data.type == 'text'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
+                div.textcontainer(
+                  :style="{fontFamily: item.data.datacon.fontFamily, fontWeight: item.data.datacon.bold ? 'bold' : 'normal', fontStyle: item.data.datacon.italic ? 'italic' : 'normal', color: item.data.datacon.color, fontSize: item.data.datacon.fontSize + 'px', textStroke: item.data.datacon.stroke ? item.data.datacon.strokeSize+'px '+item.data.datacon.strokeColor : '0', textShadow: item.data.datacon.shadow ? '5px 5px '+item.data.datacon.shadowBlur+'px '+item.data.datacon.shadowColor : 'none'}"
+                  v-text="item.data.datacon.text")
               div.filler(
                 v-if="item.data.type == 'image'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
+                div.imagecontainer(
+                  :style="{backgroundImage: `url(${item.data.datacon.img})`, backgroundSize: item.data.datacon.imgSize, opacity: item.data.datacon.opacity}")
+                  .placeholder(v-show="!item.data.datacon.img")
               div.filler(
                 v-if="item.data.type == 'border'"
                 :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
@@ -64,7 +70,7 @@
 </template>
 
 <script>
-import EchartsEasyLine from '../../components/Echarts/EchartsEasyLine'
+import EchartsEasyLine from '../../components/Echarts/EchartsEasyLine.vue'
 export default {
   props: ['scale'],
   components: {
@@ -112,8 +118,10 @@ export default {
       item.y = arg.top
       item.w = arg.width
       item.h = arg.height
+      if (item.data.type === 'chart') {
       // eslint-disable-next-line no-template-curly-in-string
-      this.$refs['list${index}'][index].redraw(item)
+        this.$refs['list${index}'][index].redraw(item)
+      }
     },
     handleDrag (widget, arg) {
       const item = widget

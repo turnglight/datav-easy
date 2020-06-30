@@ -18,6 +18,8 @@ import Toolbar from './Toolbar.vue'
 import Config from './Config.vue'
 import ScaleBar from './ScaleBar.vue'
 import html2canvas from 'html2canvas'
+import canvas2image from '@magic-words/canvas2image'
+import Uuid from 'node-uuid'
 
 var interval
 
@@ -88,8 +90,8 @@ export default {
         this.$http.put('/chart/' + this.$route.params.id, {
           img: url,
           chartData: this.chartData
-        })
-          .then((res) => {
+        }).then(
+          (res) => {
             const { errno } = res.data
             if (errno === 0) {
               this.publishPopVisible = true
@@ -121,12 +123,14 @@ export default {
         interval = setInterval(() => {
           this.$http.get(item.data.datacon.getUrl)
             .then((res) => {
-              item.data.generated = res.data
+              item.data.series = res.data.series
+              item.data.legend = res.data.Legend
             })
             .catch(() => {})
         }, time * 1000)
       }
     },
+    // 将大屏生成简略小图
     generateScreenShot () {
       const that = this
       return new Promise(function (resolve, reject) {
@@ -134,8 +138,12 @@ export default {
         html2canvas(screenRef, {
           backgroundColor: '#142E48'
         }).then((canvas) => {
-          const dataURL = canvas.toDataURL('image/png')
-          resolve(dataURL)
+          const file = canvas2image.saveAsImage(canvas, 'png', Uuid.v1() + '.png')
+          const url = that.$http.post('/api/uploadfile', file).then(res => {
+            return res.url
+          })
+            .catch(() => {})
+          resolve(url)
         })
       })
     }

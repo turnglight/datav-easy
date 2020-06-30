@@ -203,11 +203,15 @@ export default {
           settings: {
             type: item.id
           },
-          option: {},
+          option: null,
+          series: null,
+          legend: null,
           datacon: {
             type: 'raw',
-            connectID: '',
-            data: {}
+            connectId: '',
+            data: null,
+            getUrl: '',
+            interval: 2
           },
           generated: {}
         }

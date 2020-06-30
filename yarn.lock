@@ -863,6 +863,11 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@magic-words/canvas2image@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/@magic-words/canvas2image/download/@magic-words/canvas2image-2.0.0.tgz#deed4218b09465adc2c027cda332e32e6d10c3d5"
+  integrity sha1-3u1CGLCUZa3CwCfNozLjLm0Qw9U=
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -6684,6 +6689,11 @@ node-sass@^4.14.1:
     sass-graph "2.2.5"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node-uuid@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.npm.taobao.org/node-uuid/download/node-uuid-1.4.8.tgz#b040eb0923968afabf8d32fb1f17f1167fdab907"
+  integrity sha1-sEDrCSOWivq/jTL7HxfxFn/auQc=
 
 "nopt@2 || 3":
   version "3.0.6"

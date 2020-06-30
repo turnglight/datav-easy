@@ -120,7 +120,7 @@
             placeholder="请选择"
             @change="handleChartDataChange"
             style="width: 100%; margin-bottom: 10px;")
-            el-option(v-for="item in connectList" :label="item.name" :value="item._id")
+            el-option(v-for="(item,index) in connectList" :label="item.name" :key="index" :value="item._id")
           el-input(
             v-if="currentElement.data.datacon.type == 'get'"
             v-model="currentElement.data.datacon.getUrl"
@@ -276,7 +276,7 @@ export default {
   },
   methods: {
     handleScreenBgUploadSuccess (res, file) {
-      // console.log(res);
+      // console.log(res)
       this.chartData.bgimage = res.url
       // console.log(file);
       // this.imageUrl = URL.createObjectURL(file.raw);
@@ -300,7 +300,7 @@ export default {
       this.$parent.generateData(this.currentElement)
     },
     handleImageUploadSuccess (res, file) {
-      // console.log(res);
+      console.log(res)
       this.currentElement.data.datacon.img = res.url
       // console.log(file);
       // this.imageUrl = URL.createObjectURL(file.raw);

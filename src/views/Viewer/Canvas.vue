@@ -11,7 +11,7 @@
           :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
           div.filler(
             v-if="item.data.settings.type=='line'")
-            EchartsEasyLine(:index="index" :option="item.data.option" :width="item.w" :height="item.h" :ref="'list${index}'")
+            EchartsEasyLine(:index="index" :option="item.data.option" :item="item" :width="item.w" :height="item.h" :ref="'list${index}'")
         div.filler(
           v-if="item.data.type == 'text'"
           :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import EchartsEasyLine from '../../components/Echarts/EchartsEasyLine'
+import EchartsEasyLine from '../../components/Echarts/EchartsEasyLine.vue'
 
 var interval
 export default {
@@ -78,8 +78,8 @@ export default {
           .then((res) => {
             const { errno, data } = res.data
             if (errno === 0) {
-              // console.log(data.data);
-              item.data.generated = data.data
+              item.data.series = data.series
+              item.data.legend = data.Legend
             }
           })
           .catch(() => {})
