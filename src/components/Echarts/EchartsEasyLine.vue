@@ -129,6 +129,12 @@ export default {
     }
   },
   watch: {
+    'option.title': {
+      handler (newVal, oldVal) {
+        alert(123123)
+        this.redraw()
+      }
+    },
     series: {
       handler (newVal, oldVal) {
         this.updateSeries(newVal)

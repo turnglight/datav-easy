@@ -62,10 +62,24 @@
             :class="{active: thisKey=='data'}") 边框
       .panel(v-show="thisKey=='general'")
         .config-box
-          .title 控件名称
+          .title 图层名称
           el-input(v-model="currentElement.name")
+        .config-box(v-show="currentElement.data.type === 'chart'")
+          .title 图形属性
+          el-row(:gutter="10")
+            el-col(:span="30")
+              el-input(v-model="currentElement.data.option && currentElement.data.option.title.text")
+                template(slot="prepend") title
+          el-row(:gutter="10")
+            el-col(:span="30" style="margin-top: 4px;")
+              el-input(v-if="currentElement.data.option && currentElement.data.option.yAxis" v-model="currentElement.data.option.yAxis.name")
+                template(slot="prepend") y轴单位
+          el-row(:gutter="10" style="margin-top: 4px;")
+            el-col(:span="30")
+              el-input(v-if="currentElement.data.option && currentElement.data.option.xAxis" v-model="currentElement.data.option.xAxis.name")
+                template(slot="prepend") x轴单位
         .config-box
-          .title 组件位置
+          .title position
           el-row(:gutter="10")
             el-col(:span="12")
               el-input(v-model.number="currentElement.x")
@@ -80,17 +94,7 @@
             el-col(:span="12")
               el-input(v-model.number="currentElement.h")
                 template(slot="prepend") h
-        .config-box
-          .title 背景颜色
-          el-row(:gutter="20")
-            el-col(:span="4")
-              el-color-picker(v-model="currentElement.bgcolor" show-alpha)
-            el-col(:span="20")
-              el-input(v-model="currentElement.bgcolor" readonly)
-        .config-box
-          .title Settings.json
-          pre.code-box(v-html="formatedJSON")
-      .panel(v-show="thisKey=='data' && currentElement.data.type == 'chart'")
+      .panel(v-show="thisKey=='data' && currentElement.data.type === 'chart'")
         .config-box
           .title 数据配置
           el-select(
@@ -137,6 +141,11 @@
                 :max="10"
                 @change="handleChartDataChange"
                 style="width: 100%;")
+          el-row(v-if="currentElement.data.datacon.type == 'get'")
+            el-col(:span="16")
+              .config-box
+                .title Settings.json
+                pre.code-box(v-html="formatedJSON")
       .panel(v-show="thisKey=='data' && currentElement.data.type == 'text'")
         .config-box
           .title 输入文本
@@ -235,6 +244,9 @@
 import vueJsonEditor from 'vue-json-editor'
 
 export default {
+  props: {
+    currentElement: Object
+  },
   components: {
     vueJsonEditor
   },
@@ -249,18 +261,16 @@ export default {
         parentBgUrl: ''
       },
       thisKey: 'general',
-      connectList: []
+      connectList: [],
+      title: ''
     }
   },
   computed: {
     chartData () {
       return this.$parent.chartData
     },
-    currentElement () {
-      return this.$parent.currentElement
-    },
     formatedJSON () {
-      return JSON.stringify(this.$parent.currentElement.data.option, null, 2)
+      return JSON.stringify(this.currentElement.data.option, null, 2)
     }
   },
   mounted () {
@@ -300,11 +310,18 @@ export default {
       this.$parent.generateData(this.currentElement)
     },
     handleImageUploadSuccess (res, file) {
-      console.log(res)
+      // console.log(res)
       this.currentElement.data.datacon.img = res.url
       // console.log(file);
       // this.imageUrl = URL.createObjectURL(file.raw);
     }
+  },
+  watch: {
+    'currentElement.data.option.title.text': {
+      handler (newVal, oldVal) {
+      }
+    },
+    deep: true
   }
 }
 </script>
@@ -350,7 +367,7 @@ export default {
 .config-box {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   margin: 0;
-  padding: 14px 20px;
+  padding: 14px 10px;
   .title {
     color: #ffffff;
     font-weight: bold;

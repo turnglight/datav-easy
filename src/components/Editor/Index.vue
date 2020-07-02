@@ -11,7 +11,7 @@
         router-view(:scale="scale" ref="screenContainer")
       // 右侧配置栏
       .config-view(v-show="!preview")
-        Config
+        Config(:currentElement="this.currentElement")
       // 画布缩放百分比控制按钮
       .scale-view(:class="{preview: preview}")
         ScaleBar(@update:scale="changeScale")
@@ -37,6 +37,7 @@ export default {
   },
   data () {
     return {
+      currentElement: {},
       title: '',
       scale: 0.8,
       preview: false,
@@ -45,14 +46,6 @@ export default {
       },
       publishPopVisible: false,
       currentElementIndex: -1
-    }
-  },
-  computed: {
-    currentElement () {
-      if (this.currentElementIndex >= 0) {
-        return this.chartData.elements[this.currentElementIndex]
-      }
-      return {}
     }
   },
   mounted () {
@@ -77,6 +70,9 @@ export default {
     // 子组件/src/views/Editor点击画布中的元素，调用该函数，修改当前元素索引值，联动config
     setActiveComponentByIndex (index) {
       this.currentElementIndex = index
+      if (this.currentElementIndex >= 0) {
+        this.currentElement = this.chartData.elements[this.currentElementIndex]
+      }
       for (let i = 0; i < this.chartData.elements.length; i += 1) {
         const element = this.chartData.elements[i]
         if (index === i) {
@@ -87,7 +83,7 @@ export default {
       }
     },
     addComponent (data) {
-      this.chartData.elements.unshift(data)
+      this.chartData.elements.push(data)
     },
     deleteComponent (index) {
       this.chartData.elements.splice(index, 1)

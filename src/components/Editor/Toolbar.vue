@@ -5,7 +5,7 @@
         .btn(
           v-for="item in btnList"
           :class="{active: panelKey === item.key}"
-          @mouseenter="showPanel(item.key)")
+          @click="showPanel(item.key)")
           i.iconfont(:class="'icon-' + item.key")
       // 展示画布所有图层控制按钮
       .btn(:class="{active: panelKey === 'layers'}" @click="showPanel('layers')")
@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     showPanel (key) {
-      console.log(key)
       if (this.panelKey === key) {
         this.panelKey = ''
       } else {

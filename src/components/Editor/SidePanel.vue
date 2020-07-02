@@ -1,26 +1,28 @@
 <template lang="pug">
-  .panel
-    .title(v-if="panelKey === 'layers'")
-      span 图层 ({{chartData.elements.length}})
-    // 图层列表
-    .layer-list(v-if="panelKey === 'layers'")
-      draggable(
-        v-model="chartData.elements"
-        @start="handleLayerListDragStart"
-        @end="handleLayerListDragEnd"
-        ghost-class="ghost")
-        transition-group(type="transition" :name="!drag ? 'flip-list' : null")
-          .list-item(
-            v-for="(item, index) in chartData.elements"
-            :key="item.name"
-            @click="$parent.$parent.setActiveComponentByIndex(index)"
-            :class="{active: index === $parent.$parent.currentElementIndex}")
-            .name {{item.name}}
-            i.el-icon-delete.icon(@click="handleDeleteComponent(index)")
-    .component-list(v-else-if="panelKey !== ''")
-      .list-item(v-for="item in componentList[panelKey].children" @click="handleAddComponent(item)")
-        .img-wrapper
-          img(:src="item.img")
+  .div
+    .layer-panel(v-if="panelKey === 'layers'")
+      .title
+        span 图层
+      // 图层列表
+      .layer-list(v-if="panelKey === 'layers'")
+        draggable(
+          v-model="chartData.elements"
+          @start="handleLayerListDragStart"
+          @end="handleLayerListDragEnd"
+          ghost-class="ghost")
+          transition-group(type="transition" :name="!drag ? 'flip-list' : null")
+            .list-item(
+              v-for="(item, index) in chartData.elements"
+              :key="item.name"
+              @click="$parent.$parent.setActiveComponentByIndex(index)"
+              :class="{active: index === $parent.$parent.currentElementIndex}")
+              .name {{item.name}}
+              i.el-icon-delete.icon(@click="handleDeleteComponent(index)")
+    .panel(v-else-if="panelKey !== ''")
+      .component-list
+        .list-item(v-for="item in componentList[panelKey].children" @click="handleAddComponent(item)")
+          .img-wrapper
+            img(:src="item.img")
 </template>
 
 <script>
@@ -187,7 +189,7 @@ export default {
           y: 10,
           w: 200,
           h: 50,
-          bgcolor: 'rgba(255,255,255,0.3)',
+          bgcolor: 'rgba(0,0,0,0)',
           active: false,
           data: initData
         }
@@ -206,7 +208,7 @@ export default {
           y: 10,
           w: 200,
           h: 50,
-          bgcolor: 'rgba(255,255,255,0.3)',
+          bgcolor: 'rgba(0,0,0,0)',
           active: false,
           data: initData
         }
@@ -217,6 +219,16 @@ export default {
             borderId: 1,
             opacity: 1
           }
+        }
+        component = {
+          name: '新建图层' + (this.chartData.elements.length + 1),
+          x: 10,
+          y: 10,
+          w: 400,
+          h: 200,
+          bgcolor: 'rgba(0,0,0,0)',
+          active: false,
+          data: initData
         }
       } else {
         initData = {
@@ -238,6 +250,7 @@ export default {
         }
         component = {
           name: '新建图层' + (this.chartData.elements.length + 1),
+          title: '新建图层' + (this.chartData.elements.length + 1),
           x: 10,
           y: 10,
           w: 400,
@@ -257,6 +270,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.layer-panel {
+  height: 100%;
+  width: 200px;
+  display: block;
+  background: #dddddd;
+  flex-direction: column;
+  box-shadow: 4px 0 4px #00000005;
+}
 .panel {
   height: 100%;
   width: 50px;
@@ -265,11 +286,13 @@ export default {
   box-shadow: 4px 0 4px #00000005;
 }
 .title {
-  color: #999999;
+  color: #858e8d;
+  text-align: center;
+  height: 30px;
 }
 .component-list {
   flex: 1;
-
+  background: #dddddd;
   .list-item {
     transition: opacity, background 0.3s ease;
     text-align: center;
@@ -315,13 +338,14 @@ export default {
 .layer-list {
   flex: 1;
   padding: 0;
-  overflow: scroll;
+  /*overflow: scroll;*/
 
   .list-item {
     display: flex;
     align-items: center;
     height: 48px;
     width: 100%;
+    background: #eeeeee;
     transition: background 0.3s ease;
     border-top: 1px solid rgba(0, 0, 0, 0.03);
     border-bottom: 1px solid rgba(0, 0, 0, 0.03);

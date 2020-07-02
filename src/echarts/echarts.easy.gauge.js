@@ -195,7 +195,7 @@
             return Object.assign(public || {}, data || {});
         },
         create : function(){              //创建图表
-            console.log(this.option);
+            // console.log(this.option);
             this.chart.setOption(this.option);
         }
     };

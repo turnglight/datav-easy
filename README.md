@@ -1,20 +1,18 @@
 # datav-easy
 |  插件   | 说明  |
 |  ----  | ----  |
-| vue  |  |
-| vue-router  |  |
-| vuex  |  |
-| eslint  |  |
-| element-ui  |  |
-| axis  |  |
-| koa  |  |
-| koa-router  |  |
-| koa-body  |  |
-| koa-static  |  |
-| koa2-cors  |  |
-| mongoose  |  |
-
-
+| vue  | vue |
+| vue-router  | 路由 |
+| vuex  | 状态机 |
+| eslint  | 代码格式检查插件 |
+| element-ui  | ui组件 |
+| axis  | http请求插件 |
+| echarts | 图形插件|
+| echarts-easy-* | echarts经过二次封装的图形组件 |
+| html2canvas|保存画布，对画布进行截屏|
+| vue-drag-resizeable| canvas拉拽缩放功插件 |
+| vue-ruler-tool| 标尺辅助线插件，不稳定被弃用|
+| webpack| 项目打包插件 |
 
 ## 安装
 ```

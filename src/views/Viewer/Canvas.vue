@@ -5,7 +5,7 @@
       .component(
         v-for="(item, index) in chartData.elements"
         :key="index"
-        :style="{width: item.w + 'px', height: item.h + 'px', left: item.x + 'px', top: item.y + 'px', zIndex: chartData.elements.length - index}")
+        :style="{width: item.w + 'px', height: item.h + 'px', left: item.x + 'px', top: item.y + 'px', zIndex: index}")
         div.filler(
           v-if="item.data.type == 'chart'"
           :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")

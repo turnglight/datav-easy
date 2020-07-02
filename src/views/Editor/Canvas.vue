@@ -37,7 +37,7 @@
             :aspectRatio="false"
             :minw="20"
             :minh="20"
-            :z="chartData.elements.length - index"
+            :z="index"
             :isDraggable="!$parent.preview"
             :isResizable="!$parent.preview"
             @activated="handleActivated(index)"
@@ -48,7 +48,7 @@
               :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
               div.filler(
                 v-if="item.data.settings.type=='line'")
-                EchartsEasyLine(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'list${index}'")
+                EchartsEasyLine(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'index_' + index")
             div.filler(
               v-if="item.data.type == 'text'"
               :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
@@ -64,7 +64,9 @@
             div.filler(
               v-if="item.data.type == 'border'"
               :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-
+              div.bordercontainer(
+                :class="'border' + item.data.datacon.borderId"
+                :style="{opacity: item.data.datacon.opacity}")
           .mock(:class="{front: screenDraggable}")
 </template>
 
@@ -113,13 +115,13 @@ export default {
     },
     handleResize (widget, index, arg) {
       const item = widget
-      this.$parent.chartData.elements[index].item.x = arg.left
-      this.$parent.chartData.elements[index].item.y = arg.top
-      this.$parent.chartData.elements[index].item.w = arg.width
-      this.$parent.chartData.elements[index].item.h = arg.height
+      this.$parent.chartData.elements[index].x = arg.left
+      this.$parent.chartData.elements[index].y = arg.top
+      this.$parent.chartData.elements[index].w = arg.width
+      this.$parent.chartData.elements[index].h = arg.height
       if (item.data.type === 'chart') {
       // eslint-disable-next-line no-template-curly-in-string
-        this.$refs['list${index}'][index].redraw()
+        this.$refs['index_' + index][0].redraw()
       }
     },
     handleDrag (widget, arg) {
@@ -190,19 +192,22 @@ outline: 0;
     .bordercontainer {
       width: 100%;
       height: 100%;
-      box-sizing: border-box;
-      &.border1 {
-        border: 50px solid transparent;
-        border-image: url('./../../assets/img/borders/1.png') 50;
-      }
-      &.border2 {
-        border: 50px solid transparent;
-        border-image: url('./../../assets/img/borders/2.png') 50;
-      }
-      &.border3 {
-        border: 50px solid transparent;
-        border-image: url('./../../assets/img/borders/3.png') 50;
-      }
+      background: rgba(10,31,92,0.5);
+      opacity: 0.85;
+      /*box-sizing: border-box;*/
+      border: 2px solid #2773e5;
+      /*&.border1 {*/
+      /*  border: 50px solid transparent;*/
+      /*  border-image: url('./../../assets/images/borders/border-box.png') 50;*/
+      /*}*/
+      /*&.border2 {*/
+      /*  border: 50px solid transparent;*/
+      /*  border-image: url('./../../assets/img/borders/2.png') 50;*/
+      /*}*/
+      /*&.border3 {*/
+      /*  border: 50px solid transparent;*/
+      /*  border-image: url('./../../assets/img/borders/3.png') 50;*/
+      /*}*/
     }
   }
 }
