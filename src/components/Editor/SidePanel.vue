@@ -2,6 +2,7 @@
   .panel
     .title(v-if="panelKey === 'layers'")
       span 图层 ({{chartData.elements.length}})
+    // 图层列表
     .layer-list(v-if="panelKey === 'layers'")
       draggable(
         v-model="chartData.elements"
@@ -162,14 +163,14 @@ export default {
     },
     handleAddComponent (item) {
       let initData = {}
+      let component = {}
       if (item.id === 'text') {
         initData = {
           type: 'text',
           datacon: {
             text: '请输入文字',
-            color: '#000000',
-            fontSize: 48,
-            fontFamily: 'ZCOOL QingKe HuangYou',
+            color: '#ffffff',
+            fontSize: 24,
             bold: false,
             italic: false,
             stroke: false,
@@ -180,6 +181,16 @@ export default {
             shadowBlur: 10
           }
         }
+        component = {
+          name: '新建图层' + (this.chartData.elements.length + 1),
+          x: 10,
+          y: 10,
+          w: 200,
+          h: 50,
+          bgcolor: 'rgba(255,255,255,0.3)',
+          active: false,
+          data: initData
+        }
       } else if (item.id === 'image') {
         initData = {
           type: 'image',
@@ -188,6 +199,16 @@ export default {
             imgSize: 'cover',
             opacity: 1
           }
+        }
+        component = {
+          name: '新建图层' + (this.chartData.elements.length + 1),
+          x: 10,
+          y: 10,
+          w: 200,
+          h: 50,
+          bgcolor: 'rgba(255,255,255,0.3)',
+          active: false,
+          data: initData
         }
       } else if (item.id === 'border') {
         initData = {
@@ -215,16 +236,16 @@ export default {
           },
           generated: {}
         }
-      }
-      const component = {
-        name: '新建图层' + (this.chartData.elements.length + 1),
-        x: 10,
-        y: 10,
-        w: 400,
-        h: 200,
-        bgcolor: 'rgba(0, 0, 0, 0)',
-        active: false,
-        data: initData
+        component = {
+          name: '新建图层' + (this.chartData.elements.length + 1),
+          x: 10,
+          y: 10,
+          w: 400,
+          h: 200,
+          bgcolor: 'rgba(0,0,0,0)',
+          active: false,
+          data: initData
+        }
       }
       this.$parent.$parent.addComponent(component)
     },
@@ -239,9 +260,8 @@ export default {
 .panel {
   height: 100%;
   width: 50px;
-  display: flex;
+  display: block;
   flex-direction: column;
-  background: #ffffffe9;
   box-shadow: 4px 0 4px #00000005;
 }
 .title {
@@ -251,9 +271,6 @@ export default {
   flex: 1;
 
   .list-item {
-    display: inline-block;
-    width: 50px;
-    opacity: 0.6;
     transition: opacity, background 0.3s ease;
     text-align: center;
 

@@ -863,11 +863,6 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@magic-words/canvas2image@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npm.taobao.org/@magic-words/canvas2image/download/@magic-words/canvas2image-2.0.0.tgz#deed4218b09465adc2c027cda332e32e6d10c3d5"
-  integrity sha1-3u1CGLCUZa3CwCfNozLjLm0Qw9U=
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2388,6 +2383,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001084:
   version "1.0.30001085"
   resolved "https://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30001085.tgz?cache=0&sync_timestamp=1592717605044&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001085.tgz#bed28bd51ff7425d33ee23e730c7f3b703711db6"
   integrity sha1-vtKL1R/3Ql0z7iPnMMfztwNxHbY=
+
+canvas2image@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npm.taobao.org/canvas2image/download/canvas2image-1.0.5.tgz#676a094b4363888a2b7662e58b9ce5d3bfbc9d14"
+  integrity sha1-Z2oJS0NjiIordmLli5zl07+8nRQ=
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.3.0"

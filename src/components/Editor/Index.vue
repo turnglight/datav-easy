@@ -2,14 +2,20 @@
   .editor-view(:scale="1")
     .topbar-view
       Topbar
-    .toolbar-view(v-show="!preview")
-      Toolbar
-    .config-view(v-show="!preview")
-      Config
-    .scale-view(:class="{preview: preview}")
-      ScaleBar(@update:scale="changeScale")
-    .main-view
-      router-view(:scale="scale" ref="screenContainer")
+    .center
+      // 左侧工具栏
+      .toolbar-view(v-show="!preview")
+        Toolbar
+          // 画布screenContainer，利用router-view的容器特性嵌入子路由组件/src/views/Editor/Canvas.vue
+      .main-view
+        router-view(:scale="scale" ref="screenContainer")
+      // 右侧配置栏
+      .config-view(v-show="!preview")
+        Config
+      // 画布缩放百分比控制按钮
+      .scale-view(:class="{preview: preview}")
+        ScaleBar(@update:scale="changeScale")
+
 </template>
 
 <script>
@@ -18,7 +24,6 @@ import Toolbar from './Toolbar.vue'
 import Config from './Config.vue'
 import ScaleBar from './ScaleBar.vue'
 import html2canvas from 'html2canvas'
-import canvas2image from '@magic-words/canvas2image'
 import Uuid from 'node-uuid'
 
 var interval
@@ -33,7 +38,7 @@ export default {
   data () {
     return {
       title: '',
-      scale: 1,
+      scale: 0.8,
       preview: false,
       chartData: {
         elements: []
@@ -51,6 +56,7 @@ export default {
     }
   },
   mounted () {
+    // 调用接口加载当前画布数据
     this.$http.get('/chart/' + this.$route.params.id)
       .then((res) => {
         const { errno, data } = res.data
@@ -68,6 +74,7 @@ export default {
     changeScale (scale) {
       this.scale = scale
     },
+    // 子组件/src/views/Editor点击画布中的元素，调用该函数，修改当前元素索引值，联动config
     setActiveComponentByIndex (index) {
       this.currentElementIndex = index
       for (let i = 0; i < this.chartData.elements.length; i += 1) {
@@ -86,6 +93,7 @@ export default {
       this.chartData.elements.splice(index, 1)
     },
     saveChartData () {
+      // 调用generateScreenShot对当前画布进行截图，并保存返回图片url，再保存当前画布
       this.generateScreenShot().then(url => {
         this.$http.put('/chart/' + this.$route.params.id, {
           img: url,
@@ -138,14 +146,31 @@ export default {
         html2canvas(screenRef, {
           backgroundColor: '#142E48'
         }).then((canvas) => {
-          const file = canvas2image.saveAsImage(canvas, 'png', Uuid.v1() + '.png')
-          const url = that.$http.post('/api/uploadfile', file).then(res => {
-            return res.url
+          const dataURL = canvas.toDataURL('image/png')
+          const blob = that.dataURLtoBlob(dataURL)
+          const file = new File([blob], Uuid.v1() + '.png', { type: 'png', lastModified: Date.now() })
+          const param = new FormData() // 创建form对象
+          param.append('file', file)// 通过append向form对象添加数据
+          const url = that.$http.post('/api/uploadfile', param).then(res => {
+            console.log(res.data.url)
+            return res.data.url
           })
             .catch(() => {})
           resolve(url)
         })
       })
+    },
+    // 将base64转换为blob
+    dataURLtoBlob (dataurl) {
+      var arr = dataurl.split(',')
+      var mime = arr[0].match(/:(.*?);/)[1]
+      var bstr = atob(arr[1])
+      var n = bstr.length
+      var u8arr = new Uint8Array(n)
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      return new Blob([u8arr], { type: mime })
     }
   }
 }
@@ -159,26 +184,31 @@ export default {
 }
 
 .topbar-view {
-  position: absolute;
-  height: 60px;
+  height: 5%;
   width: 100vw;
   z-index: 1000;
 }
 
+.center {
+  width: 100%;
+  height: 95%;
+}
+
 .toolbar-view {
-  position: absolute;
-  top: 60px;
-  width: 50px;
-  bottom: 0;
+  position: relative;
+  display: inline-block;
+  float: left;
+  width: 2.5%;
+  height: 100%;
   z-index: 1000;
 }
 
 .config-view {
-  position: absolute;
-  right: 0;
-  top: 60px;
-  width: 300px;
-  bottom: 0;
+  position: relative;
+  display: inline-block;
+  float: right;
+  width: 15%;
+  height: 100%;
   z-index: 1000;
 }
 
@@ -193,9 +223,13 @@ export default {
 }
 
 .main-view {
+  position: relative;
+  padding-top: 10px;
+  padding-left: 20px;
+  display: inline-block;
   background: #eeeeee;
-  padding: 60px 4%;
   overflow: hidden;
-  height: calc(100vh - 60px);
+  width: 80%;
+  height: 100%;
 }
 </style>

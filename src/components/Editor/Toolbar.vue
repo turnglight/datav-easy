@@ -5,11 +5,13 @@
         .btn(
           v-for="item in btnList"
           :class="{active: panelKey === item.key}"
-          @click="showPanel(item.key)")
+          @mouseenter="showPanel(item.key)")
           i.iconfont(:class="'icon-' + item.key")
+      // 展示画布所有图层控制按钮
       .btn(:class="{active: panelKey === 'layers'}" @click="showPanel('layers')")
         i.iconfont.icon-layer
-    .collapse-panel(v-show="panelKey")
+    .collapse-panel
+      // 子元素容器面板
       SidePanel(:panelKey="panelKey")
 </template>
 
@@ -48,6 +50,7 @@ export default {
   },
   methods: {
     showPanel (key) {
+      console.log(key)
       if (this.panelKey === key) {
         this.panelKey = ''
       } else {
@@ -64,19 +67,20 @@ export default {
 }
 
 .toolbox {
+  display: inline-block;
+  width: 40%;
   height: 100%;
-  display: flex;
   flex-direction: column;
+  text-align:center;
   background: #ffffffe9;
   border-right: 1px solid rgba(0, 0, 0, 0.02);
-
+  float: left;
   .tool-list {
     flex: 1;
     margin-top: 4px;
   }
 
   .btn {
-    display: inline-block;
     width: 40px;
     height: 40px;
     line-height: 40px;
@@ -101,11 +105,11 @@ export default {
 }
 
 .collapse-panel {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50px;
-  width: 250px;
-  z-index: 10;
+  position: relative;
+  left: 25px;
+  width: 50%;
+  float: right;
+  height: 100%;
+  z-index: 99999;
 }
 </style>

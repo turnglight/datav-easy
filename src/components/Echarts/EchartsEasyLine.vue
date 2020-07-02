@@ -34,6 +34,9 @@ export default {
       this.line = init(this, echarts)
       this.line = this.line.noConflict()
       this.line = this.line('line', '.' + this.getClass())
+      // 1.查看状态下，父级为/src/views/Viewer/canvas传递chartData.Elements[i].item
+      // 2.编辑状态下，父级为/src/views/Editor/canvas
+      // 3.默认折线图
       if (this.item && this.item.data) {
         if (this.item.data.datacon.type === 'raw') {
           this.line.chart.setOption(this.item.data.option)
@@ -86,7 +89,7 @@ export default {
     updateChartOption () {
       this.$parent.$parent.$parent.$parent.chartData.elements[this.index].data.option = this.chartOption
     },
-    redraw: function () {
+    redraw: function (changed) {
       const div = document.getElementById(this.index)
       this.w = this.width
       this.h = this.height
@@ -96,11 +99,6 @@ export default {
       this.line = this.line.noConflict()
       this.line = this.line('line', '.' + this.getClass())
       this.line.chart.setOption(this.option)
-    },
-    reflash: function () {
-      const div = document.getElementById(this.index)
-      div.innerHTML = '' + div.innerHTML
-      this.init()
     },
     getId: function () {
       return this.index

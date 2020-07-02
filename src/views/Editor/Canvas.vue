@@ -5,68 +5,67 @@
       el-input(v-model="publicUrl" readonly)
       span(slot="footer")
         el-button(type="primary" @click="$parent.publishPopVisible = false") 确 定
-    vue-ruler-tool(:is-scale-revise="true" :is-hot-key="true" :content-layout="{left:50,top:50}" )
-      .edit-view(
-        tabindex="0"
-        @keydown.space.prevent="handleSpaceDown"
-        @keyup.space.prevent="handleSpaceUp"
-        @click.self="handleActivated(-1)")
-        vue-draggable-resizable(
-            :style="wrapStyle"
-            :x="100"
-            :y="50"
-            :w="chartData.w"
-            :h="chartData.h"
-            class-name="screen-box"
-            class-name-draggable="screen-box-draggable"
-            :draggable="screenDraggable"
-            :resizable="false")
-          .screen(:style="screenStyle" @click.self="handleActivated(-1)" ref="screen")
-            vue-drag-resize(
-              v-for="(item, index) in chartData.elements"
-              :key="index"
-              :isActive="item.active && !$parent.preview"
-              :parentScaleX="scale"
-              :parentScaleY="scale"
-              :x="item.x"
-              :y="item.y"
-              :w="item.w"
-              :h="item.h"
-              :parentLimitation="true"
-              :parentW="chartData.w"
-              :parentH="chartData.h"
-              :aspectRatio="false"
-              :minw="20"
-              :minh="20"
-              :z="chartData.elements.length - index"
-              :isDraggable="!$parent.preview"
-              :isResizable="!$parent.preview"
-              @activated="handleActivated(index)"
-              @resizing="handleResize(item, index, arguments[0])"
-              @dragging="handleDrag(item, arguments[0])")
+    .edit-view(
+      tabindex="0"
+      @keydown.space.prevent="handleSpaceDown"
+      @keyup.space.prevent="handleSpaceUp"
+      @click.self="handleActivated(-1)")
+      vue-draggable-resizable(
+          :style="wrapStyle"
+          :x="100"
+          :y="50"
+          :w="chartData.w"
+          :h="chartData.h"
+          class-name="screen-box"
+          class-name-draggable="screen-box-draggable"
+          :draggable="screenDraggable"
+          :resizable="false")
+        .screen(:style="screenStyle" @click.self="handleActivated(-1)" ref="screen")
+          vue-drag-resize(
+            v-for="(item, index) in chartData.elements"
+            :key="index"
+            :isActive="item.active && !$parent.preview"
+            :parentScaleX="scale"
+            :parentScaleY="scale"
+            :x="item.x"
+            :y="item.y"
+            :w="item.w"
+            :h="item.h"
+            :parentLimitation="true"
+            :parentW="chartData.w"
+            :parentH="chartData.h"
+            :aspectRatio="false"
+            :minw="20"
+            :minh="20"
+            :z="chartData.elements.length - index"
+            :isDraggable="!$parent.preview"
+            :isResizable="!$parent.preview"
+            @activated="handleActivated(index)"
+            @resizing="handleResize(item, index, arguments[0])"
+            @dragging="handleDrag(item, arguments[0])")
+            div.filler(
+              v-if="item.data.type == 'chart'"
+              :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
               div.filler(
-                v-if="item.data.type == 'chart'"
-                :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                div.filler(
-                  v-if="item.data.settings.type=='line'")
-                  EchartsEasyLine(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'list${index}'")
-              div.filler(
-                v-if="item.data.type == 'text'"
-                :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                div.textcontainer(
-                  :style="{fontFamily: item.data.datacon.fontFamily, fontWeight: item.data.datacon.bold ? 'bold' : 'normal', fontStyle: item.data.datacon.italic ? 'italic' : 'normal', color: item.data.datacon.color, fontSize: item.data.datacon.fontSize + 'px', textStroke: item.data.datacon.stroke ? item.data.datacon.strokeSize+'px '+item.data.datacon.strokeColor : '0', textShadow: item.data.datacon.shadow ? '5px 5px '+item.data.datacon.shadowBlur+'px '+item.data.datacon.shadowColor : 'none'}"
-                  v-text="item.data.datacon.text")
-              div.filler(
-                v-if="item.data.type == 'image'"
-                :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
-                div.imagecontainer(
-                  :style="{backgroundImage: `url(${item.data.datacon.img})`, backgroundSize: item.data.datacon.imgSize, opacity: item.data.datacon.opacity}")
-                  .placeholder(v-show="!item.data.datacon.img")
-              div.filler(
-                v-if="item.data.type == 'border'"
-                :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
+                v-if="item.data.settings.type=='line'")
+                EchartsEasyLine(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'list${index}'")
+            div.filler(
+              v-if="item.data.type == 'text'"
+              :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
+              div.textcontainer(
+                :style="{fontFamily: item.data.datacon.fontFamily, fontWeight: item.data.datacon.bold ? 'bold' : 'normal', fontStyle: item.data.datacon.italic ? 'italic' : 'normal', color: item.data.datacon.color, fontSize: item.data.datacon.fontSize + 'px', textStroke: item.data.datacon.stroke ? item.data.datacon.strokeSize+'px '+item.data.datacon.strokeColor : '0', textShadow: item.data.datacon.shadow ? '5px 5px '+item.data.datacon.shadowBlur+'px '+item.data.datacon.shadowColor : 'none'}"
+                v-text="item.data.datacon.text")
+            div.filler(
+              v-if="item.data.type == 'image'"
+              :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
+              div.imagecontainer(
+                :style="{backgroundImage: `url(${item.data.datacon.img})`, backgroundSize: item.data.datacon.imgSize, opacity: item.data.datacon.opacity}")
+                .placeholder(v-show="!item.data.datacon.img")
+            div.filler(
+              v-if="item.data.type == 'border'"
+              :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
 
-            .mock(:class="{front: screenDraggable}")
+          .mock(:class="{front: screenDraggable}")
 </template>
 
 <script>
@@ -114,13 +113,13 @@ export default {
     },
     handleResize (widget, index, arg) {
       const item = widget
-      item.x = arg.left
-      item.y = arg.top
-      item.w = arg.width
-      item.h = arg.height
+      this.$parent.chartData.elements[index].item.x = arg.left
+      this.$parent.chartData.elements[index].item.y = arg.top
+      this.$parent.chartData.elements[index].item.w = arg.width
+      this.$parent.chartData.elements[index].item.h = arg.height
       if (item.data.type === 'chart') {
       // eslint-disable-next-line no-template-curly-in-string
-        this.$refs['list${index}'][index].redraw(item)
+        this.$refs['list${index}'][index].redraw()
       }
     },
     handleDrag (widget, arg) {
@@ -157,6 +156,7 @@ outline: 0;
 /*width: 100%;*/
   /*height: 100%;*/
   /*position: relative;*/
+
   background: #ffffff;
   transform-origin: 0 0;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
