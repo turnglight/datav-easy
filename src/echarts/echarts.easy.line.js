@@ -28,7 +28,6 @@ export function init (that, ec) {
       return target
     }
   }
-
   function clone (target) { // 克隆对象
     if (typeof target !== 'object' || target == null) {
       return target
@@ -305,6 +304,9 @@ export function init (that, ec) {
             }
           },
           boundaryGap: false,
+          nameTextStyle: {
+            color: 'rgb(255,255,255)'
+          },
           axisTick: {
             show: false// 不显示坐标轴刻度线
           },

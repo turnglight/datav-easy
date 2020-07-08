@@ -12,13 +12,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import http from './http'
-
 // echarts-easy
 import echarts from 'echarts'
-
-// import bar from './echarts/echarts.easy.bar.js'
-// import scatter from './echarts/echarts.easy.scatter.js'
-// import gauge from './echarts/echarts.easy.gauge.js'
 // import initMock from '../mock';
 
 // 需要 mock 数据时请打开注释

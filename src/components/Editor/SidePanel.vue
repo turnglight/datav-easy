@@ -4,7 +4,7 @@
       .title
         span 图层
       // 图层列表
-      .layer-list(v-if="panelKey === 'layers'")
+      .layer-list
         draggable(
           v-model="chartData.elements"
           @start="handleLayerListDragStart"
@@ -18,11 +18,20 @@
               :class="{active: index === $parent.$parent.currentElementIndex}")
               .name {{item.name}}
               i.el-icon-delete.icon(@click="handleDeleteComponent(index)")
+    .panel(v-else-if="panelKey === 'chart'")
+      .component-list
+        .list-item(v-for="(item,index) in componentList[panelKey].children" @click="setActivePanel(index)")
+          .img-wrapper
+            img(:src="item.img" :title="item.name")
+      .child-component-list(v-if="this.show===true" :class="")
+        .list-item(v-for="item in componentList[panelKey].children[currentChildIndex].children" @click="handleAddComponent(item)")
+          .img-wrapper
+            img(:src="item.img" :title="item.name")
     .panel(v-else-if="panelKey !== ''")
       .component-list
         .list-item(v-for="item in componentList[panelKey].children" @click="handleAddComponent(item)")
           .img-wrapper
-            img(:src="item.img")
+            img(:src="item.img" :title="item.name")
 </template>
 
 <script>
@@ -36,26 +45,45 @@ export default {
   data () {
     return {
       drag: false,
+      show: false,
+      currentChildIndex: 0,
       componentList: {
         chart: {
           name: '图表',
           children: [
             {
               id: 'line',
-              img: require('../../assets/images/charts/line.svg')
-            },
-            {
-              id: 'histogram',
-              img: require('../../assets/images/charts/bar.svg')
+              name: '线图',
+              img: require('../../assets/images/charts/line.svg'),
+              children: [
+                {
+                  id: 'cruve_line',
+                  type: 'line',
+                  name: '曲线图',
+                  img: require('../../assets/images/charts/cruve_line.svg')
+                },
+                {
+                  id: 'broken_line',
+                  type: 'line',
+                  name: '折线图',
+                  img: require('../../assets/images/charts/broken_line.svg')
+                },
+                {
+                  id: 'ecg_line',
+                  type: 'line',
+                  name: '心电图',
+                  img: require('../../assets/images/charts/ecg_line.svg')
+                }
+              ]
             },
             {
               id: 'bar',
-              name: '条形图',
-              img: require('../../assets/img/charts/bar.png')
+              name: '柱状图',
+              img: require('../../assets/images/charts/bar.svg')
             },
             {
               id: 'pie',
-              name: '饼图',
+              name: '饼状图',
               img: require('../../assets/img/charts/pie.png')
             },
             {
@@ -155,6 +183,14 @@ export default {
     }
   },
   methods: {
+    setActivePanel (index) {
+      if (this.show) {
+        this.show = false
+      } else {
+        this.show = true
+        this.currentChildIndex = index
+      }
+    },
     handleLayerListDragStart (e) {
       this.drag = true
       this.$parent.$parent.setActiveComponentByIndex(e.oldIndex)
@@ -234,7 +270,8 @@ export default {
         initData = {
           type: 'chart',
           settings: {
-            type: item.id
+            type: item.type,
+            subtype: item.id
           },
           option: null,
           series: null,
@@ -291,6 +328,7 @@ export default {
   height: 30px;
 }
 .component-list {
+  position: absolute;
   flex: 1;
   background: #dddddd;
   .list-item {
@@ -314,6 +352,43 @@ export default {
       justify-content: center;
       img {
         height: 40px;
+      }
+    }
+
+    .name {
+      height: 20px;
+      line-height: 20px;
+      font-size: 13px;
+      color: #777777;
+    }
+  }
+}
+
+.child-component-list {
+  position: absolute;
+  background: #cddddd;
+  left: 43px;
+  .list-item {
+    transition: opacity, background 0.3s ease;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+      background: rgba(64, 160, 255, 0.1);
+      border: 1px solid #409eff;
+      .name {
+        color: #666666;
+      }
+    }
+
+    .img-wrapper {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      img {
+        height: 30px;
       }
     }
 

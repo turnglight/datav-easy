@@ -169,19 +169,21 @@ export default {
     .bordercontainer {
       width: 100%;
       height: 100%;
+      background: rgba(10,31,92,0.5);
       box-sizing: border-box;
-      &.border1 {
-        border: 50px solid transparent;
-        border-image: url('./../../assets/img/borders/1.png') 50;
-      }
-      &.border2 {
-        border: 50px solid transparent;
-        border-image: url('./../../assets/img/borders/2.png') 50;
-      }
-      &.border3 {
-        border: 50px solid transparent;
-        border-image: url('./../../assets/img/borders/3.png') 50;
-      }
+      border: 2px solid #2773e5;
+      /*&.border1 {*/
+      /*  border: 50px solid transparent;*/
+      /*  border-image: url('./../../assets/img/borders/1.png') 50;*/
+      /*}*/
+      /*&.border2 {*/
+      /*  border: 50px solid transparent;*/
+      /*  border-image: url('./../../assets/img/borders/2.png') 50;*/
+      /*}*/
+      /*&.border3 {*/
+      /*  border: 50px solid transparent;*/
+      /*  border-image: url('./../../assets/img/borders/3.png') 50;*/
+      /*}*/
     }
   }
 }

@@ -8,10 +8,10 @@
         Toolbar
           // 画布screenContainer，利用router-view的容器特性嵌入子路由组件/src/views/Editor/Canvas.vue
       .main-view
-        router-view(:scale="scale" ref="screenContainer")
+        router-view(:scale="scale" :chartData="chartData" :currentElementIndex="currentElementIndex" ref="screenContainer")
       // 右侧配置栏
       .config-view(v-show="!preview")
-        Config(:currentElement="this.currentElement")
+        Config(:currentElement="this.currentElement" @listener="listener")
       // 画布缩放百分比控制按钮
       .scale-view(:class="{preview: preview}")
         ScaleBar(@update:scale="changeScale")
@@ -64,6 +64,11 @@ export default {
     clearInterval(interval)
   },
   methods: {
+    // 监听config配置属性修改，刷新Canvas
+    listener () {
+      const newChartData = Object.assign({}, this.chartData)
+      this.chartData = newChartData
+    },
     changeScale (scale) {
       this.scale = scale
     },

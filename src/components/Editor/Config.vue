@@ -319,8 +319,29 @@ export default {
   watch: {
     'currentElement.data.option.title.text': {
       handler (newVal, oldVal) {
+        // eslint-disable-next-line no-debugger
+        if (oldVal && newVal) {
+          this.$emit('listener')
+        }
       }
     },
+    'currentElement.data.option.yAxis.name': {
+      handler (newVal, oldVal) {
+        // eslint-disable-next-line no-debugger
+        if (oldVal && newVal) {
+          this.$emit('listener')
+        }
+      }
+    },
+    'currentElement.data.option.xAxis.name': {
+      handler (newVal, oldVal) {
+        // eslint-disable-next-line no-debugger
+        if (oldVal && newVal) {
+          this.$emit('listener')
+        }
+      }
+    },
+    immediate: true,
     deep: true
   }
 }

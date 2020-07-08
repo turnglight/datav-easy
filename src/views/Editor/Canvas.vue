@@ -48,7 +48,10 @@
               :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
               div.filler(
                 v-if="item.data.settings.type=='line'")
-                EchartsEasyLine(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'index_' + index")
+                EchartsEasyLine(:index="index" :type="item.data.settings.subtype" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'index_' + index")
+              div.filler(
+                v-if="item.data.settings.type=='bar'")
+                EchartsEasyBar(:index="index" :option="item.data.option" :series="item.data.series" :legend="item.data.legend" :width="item.w" :height="item.h" :ref="'index_' + index")
             div.filler(
               v-if="item.data.type == 'text'"
               :style="{width: '100%', height: '100%', backgroundColor: item.bgcolor}")
@@ -72,10 +75,17 @@
 
 <script>
 import EchartsEasyLine from '../../components/Echarts/EchartsEasyLine.vue'
+import EchartsEasyBar from '../../components/Echarts/EchartsEasyBar.vue'
+
 export default {
-  props: ['scale'],
+  props: {
+    scale: Number,
+    chartData: Object,
+    currentElementIndex: Number
+  },
   components: {
-    EchartsEasyLine
+    EchartsEasyLine,
+    EchartsEasyBar
   },
   data () {
     return {
@@ -86,9 +96,6 @@ export default {
   computed: {
     publicUrl () {
       return `http://${window.location.host}${window.location.pathname}#/view/${this.$route.params.id}`
-    },
-    chartData () {
-      return this.$parent.chartData
     },
     wrapStyle () {
       return {
@@ -132,6 +139,16 @@ export default {
     generateData (item) {
       this.$parent.generateData(item)
     }
+  },
+  watch: {
+    chartData: {
+      handler (newVal, oldVal) {
+        if (this.currentElementIndex > 0) {
+          this.$refs['index_' + this.currentElementIndex][0].redraw()
+        }
+      }
+    },
+    deep: true
   }
 }
 </script>
