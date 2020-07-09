@@ -7,6 +7,7 @@
 <script>
 import { init } from '../../echarts/echarts.easy.line.js'
 var interval
+var _interval
 export default {
   props: {
     index: Number,
@@ -31,45 +32,46 @@ export default {
   },
   methods: {
     init: function () {
+      var that = this
       const echarts = require('echarts')
-      this.line = init(this, echarts)
-      this.line = this.line.noConflict()
-      this.line = this.line('line', '.' + this.getClass())
+      that.line = init(that, echarts)
+      that.line = that.line.noConflict()
+      that.line = that.line('line', '.' + that.getClass())
       // 1.查看状态下，父级为/src/views/Viewer/canvas传递chartData.Elements[i].item
       // 2.编辑状态下，父级为/src/views/Editor/canvas
       // 3.默认折线图
-      if (this.item && this.item.data) {
-        if (this.item.data.datacon.type === 'raw') {
-          this.line.chart.setOption(this.item.data.option)
-        } else if (this.item.data.datacon.type === 'connect') {
-          this.$http.get('/connect/' + this.item.data.datacon.connectId)
+      if (that.item && that.item.data) {
+        if (that.item.data.datacon.type === 'raw') {
+          that.line.chart.setOption(that.item.data.option)
+        } else if (that.item.data.datacon.type === 'connect') {
+          that.$http.get('/connect/' + that.item.data.datacon.connectId)
             .then((res) => {
               const { errno, data } = res.data
               if (errno === 0) {
-                this.updateSeries(data.series)
-                this.updateLegend(data.Legend)
+                that.updateSeries(data.series)
+                that.updateLegend(data.Legend)
               }
             })
             .catch(() => {})
-        } else if (this.item.data.datacon.type === 'get') {
+        } else if (that.item.data.datacon.type === 'get') {
           clearInterval(interval)
-          const time = this.item.data.datacon.interval ? this.item.data.datacon.interval : 1
+          const time = that.item.data.datacon.interval ? that.item.data.datacon.interval : 1
           interval = setInterval(() => {
-            this.$http.get(this.item.data.datacon.getUrl)
+            that.$http.get(that.item.data.datacon.getUrl)
               .then((res) => {
-                this.updateSeries(res.data.series)
-                this.updateLegend(res.data.Legend)
-                this.line.chart.setOption(this.option)
-                this.redraw()
+                that.updateSeries(res.data.series)
+                that.updateLegend(res.data.Legend)
+                that.line.chart.setOption(that.option)
+                that.redraw()
               })
               .catch(() => {})
           }, time * 1000)
         }
-      } else if (this.option) {
-        this.line.chart.setOption(this.option)
+      } else if (that.option) {
+        that.line.chart.setOption(that.option)
       } else {
-        if (this.type === 'cruve_line') {
-          this.line.setTitle('折线图1')
+        if (that.type === 'cruve_line') {
+          that.line.setTitle('折线图1')
             .setYAxisSplitLine(true)
             .setYAxisName('单位(*)')
             .setXAxisFontColor('rgb(255,255,255)')
@@ -80,8 +82,8 @@ export default {
             .setLegend(['类目一', '类目二'])
             .setSmooth(true)
             .create()
-        } else if (this.type === 'broken_line') {
-          this.line.setTitle('折线图1')
+        } else if (that.type === 'broken_line') {
+          that.line.setTitle('折线图1')
             .setYAxisSplitLine(true)
             .setYAxisName('单位(*)')
             .setXAxisFontColor('rgb(255,255,255)')
@@ -91,13 +93,29 @@ export default {
             .setItemColor(['#07A1A7', '#B98DE8'])
             .setLegend(['类目一', '类目二'])
             .create()
-        } else if (this.type === 'ecg_line') {
-
+        } else if (that.type === 'ecg_line') {
+          that.line.setTitle('心电图')
+            .setXAxisFontColor('rgb(255,255,255)')
+            .setYAxisFontColor('rgb(255,255,255)')
+            .setYAxisSplitLine(true)
+            .setYAxisName('单位:(*)')
+            .setXAxisSplitLine(true)
+            .setYAxisMinAndMax(0, 10)
+            .setAxisLabelFormat('xAxis', 'HH:mm:ss')
+            .setSmooth(true)
+            .setSeries([{ data: [['2020-06-16 13:42:08', 2], ['2020-06-16 13:42:07', 2], ['2020-06-16 13:42:05', 2], ['2020-06-16 13:42:04', 2], ['2020-06-16 13:42:03', 2]] }])
+            .setChartInterval(1100)
+            .create()
+          clearInterval(_interval)
+          _interval = setInterval(() => {
+            const date = new Date().format('yyyy-MM-dd hh:mm:ss')
+            that.line.pushPoint([date, parseInt(10 * Math.random())])
+          }, 1001)
         }
-        this.chartOption = this.line.option
-        this.updateChartOption()
+        that.chartOption = that.line.option
+        that.updateChartOption()
       }
-      return this.line
+      return that.line
     },
     chartData () {
       return this.$parent.chartData
@@ -115,7 +133,7 @@ export default {
       this.line = this.line.noConflict()
       this.line = this.line('line', '.' + this.getClass())
       this.line.chart.setOption(this.option)
-      console.log(this.option)
+      // console.log(this.option)
     },
     getId: function () {
       return this.index

@@ -241,22 +241,22 @@ export function init (that, ec) {
       return this
     },
     setChartInterval: function (mills) {
-      var that = this
-      setInterval(function () {
+      setInterval( () => {
         // 动态刷新坐标点，类型心电图，push一个，pop一个
-        const point = that.queue.pop()
+        const point = this.queue.pop()
         if (point) {
-          const data = that.option.series[0].data
+          const data = this.option.series[0].data
           const array = Object.assign([], data)
           array.unshift(point)
           if (array.length > 10) {
             array.pop()
           }
-          that.option.series[0].data = array
-          that.chart.setOption(that.option)
+          this.option.series[0].data = array
+          this.chart.setOption(_that.option)
+          console.log(_that.option)
         }
       }, mills)
-      return that
+      return this
     },
     setDefaultOption: function () {
       const data = {
